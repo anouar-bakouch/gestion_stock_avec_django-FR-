@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .products import Fournisseur, Devis, Produit, DetailDevis, Facture, Livraison, Commande, DetailCommande
+from .models import Fournisseur, Devis, Produit, DetailDevis, Facture, Livraison, Commande, DetailCommande
 
 admin.site.register(Fournisseur)
 admin.site.register(Devis)
