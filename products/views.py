@@ -36,9 +36,6 @@ def create_fournisseur(request):
 
 # creating a devis
 
-from django.shortcuts import render, redirect
-from .forms import DevisForm
-
 def create_devis(request):
     if request.method == 'POST':
         form = DevisForm(request.POST)
@@ -47,4 +44,17 @@ def create_devis(request):
             return redirect('add_details_devis', devis_id=devis.id)  # redirect to a new URL with the 'devis_id' parameter
     else:
         form = DevisForm()
-    return render(request, 'create_devis.html', {'form': form})
+    return render(request, 'devis/create_devis.html', {'form': form})
+
+
+def add_details_devis(request, devis_id):
+    if request.method == 'POST':
+        form = DetailsDevisForm(request.POST)
+        if form.is_valid():
+            details_devis = form.save(commit=False)
+            details_devis.nDevis_id = devis_id  # set the nDevis foreign key to the devis_id parameter
+            details_devis.save()
+            return redirect('add_details_devis', devis_id=devis_id)  # redirect to the same URL to show the updated form
+    else:
+        form = DetailsDevisForm()
+    return render(request, 'devis/add_details_devis.html', {'form': form})
