@@ -34,4 +34,14 @@ def create_fournisseur(request):
         form = FournisseurForm()
     return render(request, 'fournisseur/create_fournisseur.html', {'form': form})
 
+# creating a devis
 
+def create_devis(request) :
+    if request.method == 'POST' :
+        form = DevisForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse('Devis enregistré')
+    else :
+        form = DevisForm()
+    return render(request,'devis/create_devis.html',{'form':form})

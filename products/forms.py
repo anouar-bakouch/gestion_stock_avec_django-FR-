@@ -17,11 +17,22 @@ class FournisseurForm(forms.ModelForm):
             'adresse': forms.TextInput(attrs={'class': 'form-control'})
         }
 
+class FournisseurChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return str(obj.nFr)
 
 class DevisForm(forms.ModelForm):
+    nFr = FournisseurChoiceField(queryset=Fournisseur.objects.all(), empty_label=None, widget=forms.Select(attrs={'class': 'form-control'}), to_field_name='nFr')
+    
     class Meta:
         model = Devis
-        fields = '__all__'
+        fields = ['nFr','dateDevis','nDevis','montant']
+        widgets = {
+            'dateDevis': forms.DateInput(attrs={'class': 'form-control datepicker', 'placeholder': 'YYYY-MM-DD'}),
+            'nFr': forms.Select(attrs={'class': 'form-control'}),
+            'nDevis': forms.TextInput(attrs={'class': 'form-control'}),
+            'montant': forms.TextInput(attrs={'class': 'form-control'}),
+        }
 
 class ProduitForm(forms.ModelForm):
     class Meta:
