@@ -1,10 +1,22 @@
 from django import forms
 from .models import Fournisseur, Devis, Produit, DetailDevis, Facture, Livraison, Commande, DetailCommande
 
+# create a Fournisseur Form with bootstrap
+from django import forms
+from .models import Fournisseur
+
 class FournisseurForm(forms.ModelForm):
     class Meta:
         model = Fournisseur
-        fields = '__all__'
+        fields = ['nFr', 'Societe', 'tel', 'email', 'adresse']
+        widgets = {
+            'nFr': forms.TextInput(attrs={'class': 'form-control'}),
+            'Societe': forms.TextInput(attrs={'class': 'form-control'}),
+            'tel': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'adresse': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
 
 class DevisForm(forms.ModelForm):
     class Meta:
