@@ -23,7 +23,6 @@ class FournisseurChoiceField(forms.ModelChoiceField):
 
 class DevisForm(forms.ModelForm):
     nFr = FournisseurChoiceField(queryset=Fournisseur.objects.all(), empty_label=None, widget=forms.Select(attrs={'class': 'form-control'}), to_field_name='nFr')
-    
     class Meta:
         model = Devis
         fields = ['nFr','dateDevis','nDevis','montant']
@@ -34,15 +33,30 @@ class DevisForm(forms.ModelForm):
             'montant': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
+class DetailsDevisForm(forms.ModelForm):
+    class Meta:
+        model = DetailDevis
+        fields = ['nDevis', 'RefProd', 'qteProd', 'prixProd']
+        widgets = {
+            'nDevis': forms.Select(attrs={'class': 'form-control'}),
+            'RefProd': forms.Select(attrs={'class': 'form-control'}),
+            'qteProd': forms.NumberInput(attrs={'class': 'form-control'}),
+            'prixProd': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(DetailsDevisForm, self).__init__(*args, **kwargs)
+        self.fields['nDevis'].queryset = Devis.objects.all()
+        self.fields['nDevis'].empty_label = None
+        self.fields['RefProd'].queryset = Produit.objects.all()
+        self.fields['RefProd'].empty_label = None
+
+
 class ProduitForm(forms.ModelForm):
     class Meta:
         model = Produit
         fields = '__all__'
 
-class DetailDevisForm(forms.ModelForm):
-    class Meta:
-        model = DetailDevis
-        fields = '__all__'
 
 class FactureForm(forms.ModelForm):
     class Meta:

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .forms import FournisseurForm, DevisForm, ProduitForm, DetailDevisForm, FactureForm, LivraisonForm, CommandeForm, DetailCommandeForm
+from .forms import FournisseurForm, DevisForm, ProduitForm, DetailsDevisForm, FactureForm, LivraisonForm, CommandeForm, DetailCommandeForm
 
 # Create your views here.
 
@@ -36,12 +36,15 @@ def create_fournisseur(request):
 
 # creating a devis
 
-def create_devis(request) :
-    if request.method == 'POST' :
+from django.shortcuts import render, redirect
+from .forms import DevisForm
+
+def create_devis(request):
+    if request.method == 'POST':
         form = DevisForm(request.POST)
         if form.is_valid():
-            form.save()
-            return HttpResponse('Devis enregistré')
-    else :
+            devis = form.save()
+            return redirect('add_details_devis', devis_id=devis.id)  # redirect to a new URL with the 'devis_id' parameter
+    else:
         form = DevisForm()
-    return render(request,'devis/create_devis.html',{'form':form})
+    return render(request, 'create_devis.html', {'form': form})

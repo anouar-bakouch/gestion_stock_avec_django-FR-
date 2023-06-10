@@ -1,7 +1,6 @@
 {% extends 'index.html' %}
-
 {% block content %}
-  <h1>Create Devis</h1>
+  <h3 class="m-3">Création Devis</h3>
   <form method="post" action="{% url 'create_devis' %}" class="form-horizontal">
     {% csrf_token %}
     {{ form.as_p }}
@@ -11,4 +10,5 @@
       </div>
     </div>
   </form>
+
 {% endblock %}
