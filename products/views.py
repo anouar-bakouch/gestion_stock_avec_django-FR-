@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,reverse
 from django.http import HttpResponse
 from .forms import FournisseurForm, DevisForm, ProduitForm, DetailsDevisForm, FactureForm, LivraisonForm, CommandeForm, DetailCommandeForm
 from .models import Devis,Produit
@@ -51,23 +51,27 @@ def create_devis(request):
     return render(request, 'devis/create_devis.html', {'form': form})
 
 
+
 def add_details_devis(request, devis_id):
     try:
         devis = Devis.objects.get(pk=devis_id)
     except Devis.DoesNotExist:
-        return redirect('create_devis')  # redirect to create_devis view if the requested devis_id does not exist
+        return redirect('create_devis')
 
-    products = Product.objects.all()
+    products = Produit.objects.all()
     if not products:
-        return render_to_response('error.html', {'message': 'No products exist.'})  # render an error message if no products exist
+        # add a message to the context that no products exist
+        context = {'message': 'No products exist'}
+        return render(request, 'error.html', context)
 
     if request.method == 'POST':
         form = DetailsDevisForm(request.POST)
         if form.is_valid():
             details_devis = form.save(commit=False)
-            details_devis.nDevis = devis  # set the nDevis foreign key to the Devis object
+            details_devis.nDevis = devis
             details_devis.save()
             return redirect('add_details_devis', devis_id=devis_id)
     else:
-        form = DetailsDevisForm(initial={'nDevis': devis.id})  # set the initial value of nDevis to the id of the Devis instance
+        form = DetailsDevisForm(initial={'nDevis': devis.id})
+
     return render(request, 'devis/add_details_devis.html', {'form': form, 'devis': devis})
