@@ -13,4 +13,6 @@ urlpatterns = [
     path('error/', views.error, name='error'),
     path('create_produit/', views.create_produit, name='create_produit'),
     path('success/', views.error, name='success'),
+    path('create_commande/', views.create_commande, name='create_commande'),
+    path('add_details_commande/<int:commande_id>/', views.add_details_commande, name='add_details_commande'),
 ]

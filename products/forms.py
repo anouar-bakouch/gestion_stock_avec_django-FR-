@@ -94,4 +94,12 @@ class DetailCommandeForm(forms.ModelForm):
             'prixProd': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['nCom'].queryset = Commande.objects.all()
+        self.fields['nCom'].empty_label = None
+        self.fields['nProd'].queryset = Produit.objects.all()
+        self.fields['nProd'].empty_label = None
+        self.fields['nProd'].label_from_instance = lambda obj: obj.description
+
 

@@ -1,6 +1,14 @@
-{% extends "index.html" %}
-
+{% extends 'index.html' %}
 {% block content %}
-<h1>this is commande</h1>
-{% endblock %}
+  <h3 class="m-3">Création Commande</h3>
+  <form method="post" action="{% url 'create_commande' %}" class="form-horizontal">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">Creer Commande</button>
+      </div>
+    </div>
+  </form>
 
+{% endblock %}
