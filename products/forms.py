@@ -1,6 +1,6 @@
 from django import forms
 from .models import Fournisseur, Devis, Produit, DetailDevis, Facture, Livraison, Commande, DetailCommande
-# create a Fournisseur Form with bootstrap
+
 
 class FournisseurForm(forms.ModelForm):
     class Meta:
@@ -93,5 +93,5 @@ class DetailCommandeForm(forms.ModelForm):
             'qteCde': forms.NumberInput(attrs={'class': 'form-control'}),
             'prixProd': forms.NumberInput(attrs={'class': 'form-control'}),
         }
-        
+
 

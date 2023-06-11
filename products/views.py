@@ -91,3 +91,45 @@ def create_produit(request):
     else:
         form = ProduitForm()
     return render(request, 'produit/create_produit.html', {'form': form})
+
+# create a command 
+
+def create_commande(request):
+    if request.method == 'POST':
+        form = CommandeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            context = {'message': 'Commande ajoutée'}
+            return render(request, 'success.html', context)
+    else:
+        form = CommandeForm()
+    return render(request, 'commande/create_commande.html', {'form': form})
+
+# add_details_commande
+
+def add_details_commande(request, commande_id):
+    try:
+        commande = Commande.objects.get(pk=commande_id)
+    except Commande.DoesNotExist:
+        return redirect('create_commande')
+
+    products = Produit.objects.all()
+    if not products:
+        # add a message to the context that no products exist
+        context = {'message': 'No products exist'}
+        return render(request, 'error.html', context)
+
+    if request.method == 'POST':
+        form = DetailCommandeForm(request.POST)
+        if form.is_valid():
+            details_commande = form.save(commit=False)
+            details_commande.nCom = commande
+            details_commande.save()
+            context = {'message': 'Ajouté'}
+            return render(request, 'success.html', context)
+    else:
+        form = DetailCommandeForm(initial={'nCom': commande.id})
+
+    return render(request, 'commande/add_details_commande.html', {'form': form, 'commande': commande})
+
+
