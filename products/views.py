@@ -131,4 +131,37 @@ def add_details_commande(request, commande_id):
 
     return render(request, 'commande/add_details_commande.html', {'form': form, 'commande': commande})
 
+# create a facture 
 
+def create_facture(request):
+    if request.method == 'POST':
+        form = FactureForm(request.POST)
+        if form.is_valid():
+            facture = form.save()
+            return redirect('add_livraison', facture_id=facture.id)
+    else:
+        form = FactureForm()
+
+    context = {'form': form}
+    return render(request, 'facture/create_facture.html', context)
+
+
+def add_livraison(request, facture_id):
+    facture = get_object_or_404(Facture, id=facture_id)
+
+    if request.method == 'POST':
+        form = LivraisonForm(request.POST)
+        if form.is_valid():
+            livraison = form.save(commit=False)
+            livraison.RefFact = facture
+            livraison.save()
+            context = {'message': 'Ajouté'}
+            return render(request, 'success.html', context)
+    else:
+        form = LivraisonForm()
+
+    form.fields['RefFact'].queryset = Facture.objects.filter(id=facture_id)
+    form.fields['RefFact'].initial = facture_id
+
+    context = {'form': form, 'facture': facture}
+    return render(request, 'add_livraison.html', context)

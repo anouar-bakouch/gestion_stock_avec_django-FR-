@@ -65,11 +65,38 @@ class FactureForm(forms.ModelForm):
     class Meta:
         model = Facture
         fields = '__all__'
+        widgets = { 
+            'nFact': forms.TextInput(attrs={'class': 'form-control'}),
+            'dateFact': forms.DateInput(attrs={'class': 'form-control datepicker', 'placeholder': 'YYYY-MM-DD'}),
+            'montantFact': forms.NumberInput(attrs={'class': 'form-control'}),
+            'nFr': forms.Select(attrs={'class': 'form-control'}),
+        }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['nFr'].queryset = Fournisseur.objects.all()
+        self.fields['nFr'].empty_label = None
+        self.fields['nFr'].label_from_instance = lambda obj: obj.nFr
 
 class LivraisonForm(forms.ModelForm):
     class Meta:
         model = Livraison
         fields = '__all__'
+        widgets = {
+            'nBon': forms.TextInput(attrs={'class': 'form-control'}),
+            'qteLiv': forms.NumberInput(attrs={'class': 'form-control'}),
+            'prixLiv': forms.NumberInput(attrs={'class': 'form-control'}),
+            'RefFact': forms.Select(attrs={'class': 'form-control'}),
+            'RefProd': forms.Select(attrs={'class': 'form-control'}),
+        }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['RefProd'].queryset = Produit.objects.all()
+        self.fields['RefProd'].empty_label = None
+        self.fields['RefProd'].label_from_instance = lambda obj: obj.description
+        self.fields['RefFact'].queryset = Facture.objects.all()
+        self.fields['RefFact'].empty_label = None
+        self.fields['RefFact'].label_from_instance = lambda obj: obj.nFact
+        
 
 class CommandeForm(forms.ModelForm):
     class Meta:
