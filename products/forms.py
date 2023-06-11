@@ -75,9 +75,23 @@ class CommandeForm(forms.ModelForm):
     class Meta:
         model = Commande
         fields = '__all__'
+        widgets = {
+            'nCom': forms.TextInput(attrs={'class': 'form-control'}),
+            'dateCom': forms.DateInput(attrs={'class': 'form-control datepicker', 'placeholder': 'YYYY-MM-DD'}),
+            'nFr': forms.Select(attrs={'class': 'form-control'}),
+            'montant': forms.NumberInput(attrs={'class': 'form-control'}),
+            'refDevis': forms.Select(attrs={'class': 'form-control'}),
+        }
 
 class DetailCommandeForm(forms.ModelForm):
     class Meta:
         model = DetailCommande
         fields = '__all__'
+        widgets = {
+            'nCom': forms.Select(attrs={'class': 'form-control'}),
+            'nProd': forms.Select(attrs={'class': 'form-control'}),
+            'qteCde': forms.NumberInput(attrs={'class': 'form-control'}),
+            'prixProd': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+        
 
