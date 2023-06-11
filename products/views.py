@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect,render_to_response
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .forms import FournisseurForm, DevisForm, ProduitForm, DetailsDevisForm, FactureForm, LivraisonForm, CommandeForm, DetailCommandeForm
 from .models import Devis,Produit
@@ -22,6 +22,9 @@ def devis(request):
 
 def fournisseur(request):
     return render(request, 'fournisseur/create_fournisseur.html')
+
+def error(request):
+    return render(request, 'error.html')
 
 # creating a fournisseur
 
