@@ -19,7 +19,7 @@ Pour installer l'application web "Gestion de stock", suivez les étapes ci-desso
 1. Clonez le dépôt Git de l'application web "Gestion de stock" en utilisant la commande suivante:
 
    ````
-   git clone https://github.com/votre-nom-utilisateur/gestion-de-stock.git
+   git clone https://github.com/bakouch-anouar/gestion_stock_avec_django-FR-.git
    ```
 
 2. Assurez-vous d'avoir Python 3.x et Django 3.x installés sur votre ordinateur.
@@ -94,10 +94,6 @@ Pour générer une nouvelle facture à partir d'une commande existante, cliquez 
 ### Ajout de livraisons
 
 Pour ajouter une nouvelle livraison,cliquez sur le lien "Livraisons" dans la barre de navigation, puis sur le bouton "Ajouter une livraison". Sélectionnez la commande associée à la livraison, indiquez la quantité de produits livrés et enregistrez les détails de la livraison en cliquant sur le bouton "Enregistrer". La nouvelle livraison sera ajoutée à la liste des livraisons.
-
-### Marquage des livraisons comme payées
-
-Pour marquer une livraison comme payée, cliquez sur le lien "Livraisons" dans la barre de navigation, puis sur la livraison que vous souhaitez marquer comme payée. Cochez la case "Payée" et enregistrez les modifications en cliquant sur le bouton "Enregistrer". La livraison sera marquée comme payée dans la liste des livraisons.
 
 ## Conclusion
 
