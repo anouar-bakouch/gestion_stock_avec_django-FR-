@@ -42,19 +42,24 @@ class DetailsDevisForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(DetailsDevisForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['nDevis'].queryset = Devis.objects.all()
         self.fields['nDevis'].empty_label = None
         self.fields['RefProd'].queryset = Produit.objects.all()
         self.fields['RefProd'].empty_label = None
-    
+        self.fields['RefProd'].label_from_instance = lambda obj: obj.description
 
 
 class ProduitForm(forms.ModelForm):
     class Meta:
         model = Produit
         fields = '__all__'
-
+        widgets = {
+            'RefProd': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.TextInput(attrs={'class': 'form-control'}),
+            'marque': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+    
 
 class FactureForm(forms.ModelForm):
     class Meta:

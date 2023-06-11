@@ -26,6 +26,9 @@ def fournisseur(request):
 def error(request):
     return render(request, 'error.html')
 
+def success(request):
+    return render(request, 'success.html')
+
 # creating a fournisseur
 
 def create_fournisseur(request):
@@ -51,7 +54,6 @@ def create_devis(request):
     return render(request, 'devis/create_devis.html', {'form': form})
 
 
-
 def add_details_devis(request, devis_id):
     try:
         devis = Devis.objects.get(pk=devis_id)
@@ -70,8 +72,22 @@ def add_details_devis(request, devis_id):
             details_devis = form.save(commit=False)
             details_devis.nDevis = devis
             details_devis.save()
-            return redirect('add_details_devis', devis_id=devis_id)
+            context = {'message': 'Ajouté'}
+            return render(request, 'success.html', context)
     else:
         form = DetailsDevisForm(initial={'nDevis': devis.id})
 
     return render(request, 'devis/add_details_devis.html', {'form': form, 'devis': devis})
+
+# create a produit 
+
+def create_produit(request):
+    if request.method == 'POST':
+        form = ProduitForm(request.POST)
+        if form.is_valid():
+            form.save()
+            context = {'message': 'Produit ajouté'}
+            return render(request, 'success.html', context)
+    else:
+        form = ProduitForm()
+    return render(request, 'produit/create_produit.html', {'form': form})

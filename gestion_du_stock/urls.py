@@ -11,4 +11,6 @@ urlpatterns = [
     path('create_devis/',views.create_devis,name='create_devis'),
     path('add_details_devis/<int:devis_id>/', views.add_details_devis, name='add_details_devis'),
     path('error/', views.error, name='error'),
+    path('create_produit/', views.create_produit, name='create_produit'),
+    path('success/', views.error, name='success'),
 ]
