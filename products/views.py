@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect,render_to_response
 from django.http import HttpResponse
 from .forms import FournisseurForm, DevisForm, ProduitForm, DetailsDevisForm, FactureForm, LivraisonForm, CommandeForm, DetailCommandeForm
+from .models import Devis,Produit
 
 # Create your views here.
 
@@ -41,20 +42,29 @@ def create_devis(request):
         form = DevisForm(request.POST)
         if form.is_valid():
             devis = form.save()
-            return redirect('add_details_devis', devis_id=devis.id)  # redirect to a new URL with the 'devis_id' parameter
+            return redirect('add_details_devis', devis_id=devis.id)
     else:
         form = DevisForm()
     return render(request, 'devis/create_devis.html', {'form': form})
 
 
 def add_details_devis(request, devis_id):
+    try:
+        devis = Devis.objects.get(pk=devis_id)
+    except Devis.DoesNotExist:
+        return redirect('create_devis')  # redirect to create_devis view if the requested devis_id does not exist
+
+    products = Product.objects.all()
+    if not products:
+        return render_to_response('error.html', {'message': 'No products exist.'})  # render an error message if no products exist
+
     if request.method == 'POST':
         form = DetailsDevisForm(request.POST)
         if form.is_valid():
             details_devis = form.save(commit=False)
-            details_devis.nDevis_id = devis_id  # set the nDevis foreign key to the devis_id parameter
+            details_devis.nDevis = devis  # set the nDevis foreign key to the Devis object
             details_devis.save()
-            return redirect('add_details_devis', devis_id=devis_id)  # redirect to the same URL to show the updated form
+            return redirect('add_details_devis', devis_id=devis_id)
     else:
-        form = DetailsDevisForm()
-    return render(request, 'devis/add_details_devis.html', {'form': form})
+        form = DetailsDevisForm(initial={'nDevis': devis.id})  # set the initial value of nDevis to the id of the Devis instance
+    return render(request, 'devis/add_details_devis.html', {'form': form, 'devis': devis})

@@ -1,9 +1,6 @@
 from django import forms
 from .models import Fournisseur, Devis, Produit, DetailDevis, Facture, Livraison, Commande, DetailCommande
-
 # create a Fournisseur Form with bootstrap
-from django import forms
-from .models import Fournisseur
 
 class FournisseurForm(forms.ModelForm):
     class Meta:
@@ -50,6 +47,7 @@ class DetailsDevisForm(forms.ModelForm):
         self.fields['nDevis'].empty_label = None
         self.fields['RefProd'].queryset = Produit.objects.all()
         self.fields['RefProd'].empty_label = None
+    
 
 
 class ProduitForm(forms.ModelForm):

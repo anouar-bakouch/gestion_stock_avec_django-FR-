@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+
+{% block content %}
+  <h3 class="m-3">Ajout de Détails au Devis #{{ devis.id }}</h3>
+  <form method="post" action="{% url 'add_details_devis' devis_id=devis.id %}" class="form-horizontal" style="padding:17px">
+    {% csrf_token %}
+    {% for field in form.visible_fields %}
+      <div class="form-group">
+        {{ field.label_tag }}
+        {% if field.name == 'nDevis' %}
+          <select name="{{ field.name }}" class="form-control" required>
+            <option value="{{ devis.id }}">{{ devis.id }}</option>
+          </select>
+        {% else %}
+          {{ field }}
+        {% endif %}
+      </div>
+    {% endfor %}
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">Ajouter Détails</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}
