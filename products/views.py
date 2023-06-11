@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,reverse
 from django.http import HttpResponse
 from .forms import FournisseurForm, DevisForm, ProduitForm, DetailsDevisForm, FactureForm, LivraisonForm, CommandeForm, DetailCommandeForm
-from .models import Devis,Produit
+from .models import Devis,Produit,Commande
 
 # Create your views here.
 
@@ -98,9 +98,8 @@ def create_commande(request):
     if request.method == 'POST':
         form = CommandeForm(request.POST)
         if form.is_valid():
-            form.save()
-            context = {'message': 'Commande ajoutée'}
-            return render(request, 'success.html', context)
+            commande = form.save()
+            return redirect('add_details_commande', commande_id=commande.id)
     else:
         form = CommandeForm()
     return render(request, 'commande/create_commande.html', {'form': form})

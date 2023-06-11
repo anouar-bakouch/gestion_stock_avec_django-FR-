@@ -79,9 +79,18 @@ class CommandeForm(forms.ModelForm):
             'nCom': forms.TextInput(attrs={'class': 'form-control'}),
             'dateCom': forms.DateInput(attrs={'class': 'form-control datepicker', 'placeholder': 'YYYY-MM-DD'}),
             'nFr': forms.Select(attrs={'class': 'form-control'}),
-            'montant': forms.NumberInput(attrs={'class': 'form-control'}),
+            'montantCde': forms.NumberInput(attrs={'class': 'form-control'}),
             'refDevis': forms.Select(attrs={'class': 'form-control'}),
         }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['nFr'].queryset = Fournisseur.objects.all()
+        self.fields['nFr'].empty_label = None
+        self.fields['nFr'].label_from_instance = lambda obj: obj.Societe
+        self.fields['refDevis'].queryset = Devis.objects.all()
+        self.fields['refDevis'].empty_label = None
+        self.fields['refDevis'].label_from_instance = lambda obj: obj.nDevis
 
 class DetailCommandeForm(forms.ModelForm):
     class Meta:
@@ -89,7 +98,7 @@ class DetailCommandeForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'nCom': forms.Select(attrs={'class': 'form-control'}),
-            'nProd': forms.Select(attrs={'class': 'form-control'}),
+            'RefProd': forms.Select(attrs={'class': 'form-control'}),
             'qteCde': forms.NumberInput(attrs={'class': 'form-control'}),
             'prixProd': forms.NumberInput(attrs={'class': 'form-control'}),
         }
@@ -98,8 +107,7 @@ class DetailCommandeForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['nCom'].queryset = Commande.objects.all()
         self.fields['nCom'].empty_label = None
-        self.fields['nProd'].queryset = Produit.objects.all()
-        self.fields['nProd'].empty_label = None
-        self.fields['nProd'].label_from_instance = lambda obj: obj.description
-
-
+        self.fields['nCom'].label_from_instance = lambda obj: obj.nCom
+        self.fields['RefProd'].queryset = Produit.objects.all()
+        self.fields['RefProd'].empty_label = None
+        self.fields['RefProd'].label_from_instance = lambda obj: obj.description
