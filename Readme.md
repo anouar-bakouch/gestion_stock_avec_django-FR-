@@ -4,15 +4,13 @@ Bienvenue dans le projet "Gestion de stock"! Ce projet est une application web D
 
 L'application web "Gestion de stock" offre les fonctionnalités suivantes:
 
-- Ajouter, modifier et supprimer des produits.
-- Ajouter, modifier et supprimer des fournisseurs.
+- Ajouter des produits.
+- Ajouter des fournisseurs.
 - Créer des commandes pour acheter des produits auprès des fournisseurs.
 - Ajouter des produits à une commande et enregistrer les détails de la commande.
 - Afficher la liste des commandes et leur statut.
 - Générer des factures à partir des commandes.
-- Ajouter, modifier et supprimer des livraisons.
-- Afficher la liste des livraisons et leur statut.
-- Marquer les livraisons comme payées.
+- Ajouter des livraisons.
 
 ## Installation
 
