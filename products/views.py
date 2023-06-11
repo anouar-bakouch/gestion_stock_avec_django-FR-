@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,reverse
 from django.http import HttpResponse
 from .forms import FournisseurForm, DevisForm, ProduitForm, DetailsDevisForm, FactureForm, LivraisonForm, CommandeForm, DetailCommandeForm
-from .models import Devis,Produit,Commande
+from .models import Devis,Produit,Commande,Facture
 
 # Create your views here.
 
@@ -147,7 +147,7 @@ def create_facture(request):
 
 
 def add_livraison(request, facture_id):
-    facture = get_object_or_404(Facture, id=facture_id)
+    facture = Facture.objects.get(pk=facture_id)
 
     if request.method == 'POST':
         form = LivraisonForm(request.POST)
@@ -164,4 +164,4 @@ def add_livraison(request, facture_id):
     form.fields['RefFact'].initial = facture_id
 
     context = {'form': form, 'facture': facture}
-    return render(request, 'add_livraison.html', context)
+    return render(request, 'facture/add_livraison.html', context)

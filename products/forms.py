@@ -138,3 +138,4 @@ class DetailCommandeForm(forms.ModelForm):
         self.fields['RefProd'].queryset = Produit.objects.all()
         self.fields['RefProd'].empty_label = None
         self.fields['RefProd'].label_from_instance = lambda obj: obj.description
+
